@@ -27,6 +27,8 @@
             <input type="submit" name="submit" value="Add Blog">
         </form>
 
+        <h1>Login page here</h1>
+
         <div>
             <table id="blogsTable" class="display">
                 <thead>
