@@ -62,8 +62,7 @@ INSERT INTO `blogs` (`blog_id`, `creator_email`, `title`, `description`, `event_
 (17, 'bob@example.com', 'Q for Quilting', 'Quilting tips for beginners.', '2024-06-25', '2024-09-27 03:25:44', '2024-09-27 03:25:44', 'public'),
 (18, 'carol@example.com', 'R for Reading', 'The importance of reading in personal development.', '2024-07-04', '2024-09-27 03:25:44', '2024-09-27 03:25:44', 'private'),
 (19, 'bob@example.com', 'S for Science', 'Discoveries in the field of science.', '2024-07-24', '2024-09-27 03:25:44', '2024-09-27 03:25:44', 'public'),
-(20, 'alice@example.com', 'T for Travel', 'A guide to traveling on a budget.', '2024-08-01', '2024-09-27 03:25:44', '2024-09-27 03:25:44', 'public'),
-(24, 'test@live.com', 'testing blog creation', 'test test', '2024-10-21', '2024-10-21 23:06:33', '2024-10-21 23:06:33', 'private');
+(20, 'alice@example.com', 'T for Travel', 'A guide to traveling on a budget.', '2024-08-01', '2024-09-27 03:25:44', '2024-09-27 03:25:44', 'public')
 
 -- --------------------------------------------------------
 
