@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Blog Website</title>
+        <title>New Blog</title>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
         <link rel="stylesheet" type="text/css" href="styles.css">
         <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -9,6 +9,8 @@
         <script type="text/javascript" charset="utf8" src="scripts.js"></script>
     </head>
     <body>
+
+        <a href="homepage.php" >View Blogs</a>
 
         <h1>Create Blog</h1>
         <!-- Blog Form -->
@@ -31,7 +33,7 @@
         </form>
 
         <h2>To View Blogs</h2>
-        <button type="button" onclick="alert('View Blog page should appear')">View Blogs</button>
+        <a href="viewblogs.php" >View Blogs</a>
 
         <div>
                     <?php
@@ -69,8 +71,6 @@
                     // Close connection
                     $conn->close();
                     ?>
-                </tbody>
-            </table>
         </div>
     </body>
 </html>
