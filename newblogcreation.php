@@ -10,7 +10,7 @@
     </head>
     <body>
 
-        <a href="homepage.php" >View Blogs</a>
+        <a href="homepage.php" >Home</a>
 
         <h1>Create Blog</h1>
         <!-- Blog Form -->

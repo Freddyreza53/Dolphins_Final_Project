@@ -10,7 +10,7 @@
     </head>
     <body>
 
-        <a href="homepage.php" >View Blogs</a>
+        <a href="homepage.php" >Home</a>
 
         <h1>Blogs</h1>
 
