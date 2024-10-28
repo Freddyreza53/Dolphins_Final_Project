@@ -66,20 +66,6 @@
                         }
                     }
 
-                    // Handle delete request
-                    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete"])) {
-                        $blog_id = $conn->real_escape_string($_POST["blog_id"]);
-
-                        $delete_sql = "DELETE FROM blogs WHERE blog_id = '$blog_id'";
-
-                        if ($conn->query($delete_sql) === TRUE) {
-                            echo "Blog deleted successfully";
-                        } else {
-                            echo "Error: " . $delete_sql . "<br>" . $conn->error;
-                        }
-                    }
-
-
                     // Close connection
                     $conn->close();
                     ?>
