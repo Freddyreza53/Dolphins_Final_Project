@@ -10,6 +10,8 @@
     </head>
     <body>
 
+        <a href="homepage.php" >Home</a>
+
         <h1>Login</h1>
         <p> Enter login information. </p>
 
