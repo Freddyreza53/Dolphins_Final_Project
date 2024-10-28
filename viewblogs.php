@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Blog Website</title>
+        <title>View Blogs</title>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
         <link rel="stylesheet" type="text/css" href="styles.css">
         <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -9,10 +9,13 @@
         <script type="text/javascript" charset="utf8" src="scripts.js"></script>
     </head>
     <body>
+
+        <a href="homepage.php" >View Blogs</a>
+
         <h1>Blogs</h1>
 
         <h2>To Create Blogs</h2>
-        <button type="button" onclick="alert('New Blog Creation page should appear')">Create Blog</button>
+        <a href="newblogcreation.php" >Create Blog</a>
 
         <div>
             <table id="blogsTable" class="display">
