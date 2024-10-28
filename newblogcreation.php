@@ -14,8 +14,9 @@
         <!-- Blog Form -->
         <form method="POST" action="">
             <label for="title">Title:</label>
-            <input type="text" id="title" name="title" pattern="[^0-9]{1}[\w]*"
-            title="Blog Title can't start with a number" required><br>
+            <input type="text" id="title" name="title" pattern="[\w]*"
+            title="Blog Title can't contain a symbol" required><br>
+            <!-- Fix regex later to allow symbols after first character-->
 
             <label for="description">Description:</label>
             <textarea id="description" name="description" required></textarea><br>
