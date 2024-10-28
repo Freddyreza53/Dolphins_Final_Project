@@ -37,19 +37,7 @@
 
         <div>
                     <?php
-                    // MySQL database info
-                    $servername = "localhost";
-                    $username = "root";
-                    $password = "";
-                    $dbname = "photos_d_db";
-
-                    // Create connection
-                    $conn = new mysqli($servername, $username, $password, $dbname);
-
-                    // Check connection
-                    if ($conn->connect_error) {
-                        die("Connection failed: " . $conn->connect_error);
-                    }
+                    require 'db.php'; // Include database connection
 
                     // Handle insert request
                     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
