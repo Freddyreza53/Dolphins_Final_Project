@@ -67,9 +67,6 @@
                             echo "</tr>";
                         }
                     }
-
-                    
-
                     // Close connection
                     $conn->close();
                     ?>
