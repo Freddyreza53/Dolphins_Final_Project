@@ -1,11 +1,32 @@
+<?php
+    session_start();
+    require 'db.php'; // Include database connection
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        $sql = "SELECT * FROM users WHERE email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['user'] = $user;
+            header("Location: homepage.php");
+        } else {
+            echo "Invalid email or password";
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
         <title>Login</title>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
         <link rel="stylesheet" type="text/css" href="styles.css">
-        <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
         <script type="text/javascript" charset="utf8" src="scripts.js"></script>
     </head>
     <body>
@@ -15,11 +36,14 @@
         <h1>Login</h1>
         <p> Enter login information. </p>
 
-
-
         <div>
-
-
+            <form method="POST" action="">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br>
+                <input type="submit" value="Login">
+            </form>
         </div>
     </body>
 </html>

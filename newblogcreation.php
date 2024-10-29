@@ -14,7 +14,7 @@
 
         <h1>Create Blog</h1>
         <!-- Blog Form -->
-        <form method="POST" action="">
+        <form method="POST" action="" enctype="multipart/form-data">
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" pattern="[\w]*"
             title="Blog Title can't contain a symbol" required><br>
@@ -29,6 +29,9 @@
             <label for="event_date">Event Date:</label>
             <input type="date" id="event_date" name="event_date" required><br>
 
+            <label for="image">Upload Image:</label>
+            <input type="file" id="image" name="image" accept="image/*"><br>
+
             <input type="submit" name="submit" value="Add Blog">
         </form>
 
@@ -37,19 +40,7 @@
 
         <div>
                     <?php
-                    // MySQL database info
-                    $servername = "localhost";
-                    $username = "root";
-                    $password = "";
-                    $dbname = "photos_d_db";
-
-                    // Create connection
-                    $conn = new mysqli($servername, $username, $password, $dbname);
-
-                    // Check connection
-                    if ($conn->connect_error) {
-                        die("Connection failed: " . $conn->connect_error);
-                    }
+                    require 'db.php'; // Include database connection
 
                     // Handle insert request
                     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
@@ -62,7 +53,30 @@
                                     VALUES ('$title', '$description', '$creator_email', '$event_date')";
 
                         if ($conn->query($insert_sql) === TRUE) {
+                            $blog_id = $conn->insert_id; // Get the ID of the newly created blog post
+
+                            // Handle file upload
+                            if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+                                $image_dir = "images/$blog_id";
+                                if (!is_dir($image_dir)) {
+                                    mkdir($image_dir, 0777, true);
+                                } else {
+                                    echo "Directory already exists: $image_dir<br>";
+                                }
+                    
+                                $image_path = $image_dir . '/' . $blog_id;
+                                if (move_uploaded_file($_FILES['image']['tmp_name'], $image_path)) {
+                                    echo "Image uploaded successfully: $image_path<br>";
+                                } else {
+                                    echo "Error uploading image.<br>";
+                                    echo "Error details: " . error_get_last()['message'] . "<br>";
+                                }
+                            } else {
+                                echo "No image uploaded or there was an error with the upload.<br>";
+                            }
+
                             echo "New blog added successfully";
+                            // header("Location: viewblogs.php"); this will move user to viewblogs.php
                         } else {
                             echo "Error: " . $insert_sql . "<br>" . $conn->error;
                         }

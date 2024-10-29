@@ -31,20 +31,20 @@
                 </thead>
                 <tbody>
                     <?php
-                    // MySQL database info
-                    $servername = "localhost";
-                    $username = "root";
-                    $password = "";
-                    $dbname = "photos_d_db";
+                    require 'db.php'; // Include database connection
 
-                    // Create connection
-                    $conn = new mysqli($servername, $username, $password, $dbname);
+                    // Handle delete request
+                    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete"])) {
+                        $blog_id = $conn->real_escape_string($_POST["blog_id"]);
 
-                    // Check connection
-                    if ($conn->connect_error) {
-                        die("Connection failed: " . $conn->connect_error);
+                        $delete_sql = "DELETE FROM blogs WHERE blog_id = '$blog_id'";
+
+                        if ($conn->query($delete_sql) === TRUE) {
+                            echo "Blog deleted successfully";
+                        } else {
+                            echo "Error: " . $delete_sql . "<br>" . $conn->error;
+                        }
                     }
-
 
                     // FETCH blog data from the database
                     $sql = "SELECT blog_id, title, description, creator_email, event_date FROM blogs";
@@ -67,20 +67,6 @@
                             echo "</tr>";
                         }
                     }
-
-                    // Handle delete request
-                    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete"])) {
-                        $blog_id = $conn->real_escape_string($_POST["blog_id"]);
-
-                        $delete_sql = "DELETE FROM blogs WHERE blog_id = '$blog_id'";
-
-                        if ($conn->query($delete_sql) === TRUE) {
-                            echo "Blog deleted successfully";
-                        } else {
-                            echo "Error: " . $delete_sql . "<br>" . $conn->error;
-                        }
-                    }
-
                     // Close connection
                     $conn->close();
                     ?>

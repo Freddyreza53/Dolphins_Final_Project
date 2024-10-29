@@ -1,11 +1,25 @@
+<?php
+    session_start();
+    require 'db.php'; // Include database connection
+
+    if ($_SESSION['user']) {
+        $user = $_SESSION['user'];
+        $sql = "SELECT * FROM blogs WHERE privacy_filter = 'private' ORDER BY event_date ASC";
+    } else {
+        $sql = "SELECT * FROM blogs WHERE privacy_filter = 'public' ORDER BY event_date ASC";
+    }
+
+    
+    $result = $conn->query($sql);
+
+?>
+
+
 <!DOCTYPE html>
 <html>
     <head>
         <title>Photos ABCD</title>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
         <link rel="stylesheet" type="text/css" href="styles.css">
-        <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
         <script type="text/javascript" charset="utf8" src="scripts.js"></script>
     </head>
     <body>
@@ -13,8 +27,11 @@
         <h1>Welcome to Photos ABCD</h1>
         <p> Created by Team Dolphins </p>
 
-        <h2>To Login/Register</h2>
-        <a href="loginpage.php" > Login/Register</a>
+        <h2>To Login</h2>
+        <a href="loginpage.php" > Login</a>
+
+        <h2>To Register</h2>
+        <a href="registerpage.php" > Register</a>
 
         <h2>To View Blogs</h2>
         <a href="viewblogs.php" >View Blogs</a>
@@ -23,8 +40,35 @@
         <a href="newblogcreation.php" >Create Blog</a>
 
         <div>
-
-
-        </div>
+            <table id="blogsTable" class="display">
+                <thead>
+                    <tr>
+                        <th>blog_id</th>
+                        <th>title</th>
+                        <th>description</th>
+                        <th>creator_email</th>
+                        <th>event_date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if ($result->num_rows > 0) {
+                        while($row = $result->fetch_assoc()) {
+                            echo "<tr>";
+                            echo "<td>" . htmlspecialchars($row["blog_id"]) . "</td>";
+                            echo "<td>" . htmlspecialchars($row["title"]) . "</td>";
+                            echo "<td>" . htmlspecialchars($row["description"]) . "</td>";
+                            echo "<td>" . htmlspecialchars($row["creator_email"]) . "</td>";
+                            echo "<td>" . htmlspecialchars($row["event_date"]) . "</td>";
+                            echo "<td><a href='images/" . $row["blog_id"] . "/" . $row["blog_id"] ."'>View</a></td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "0 results";
+                    }
+                    ?>
+                </tbody>
+            </table>
     </body>
 </html>
