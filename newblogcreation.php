@@ -44,8 +44,6 @@
             <input type="submit" name="submit" value="Add Blog">
         </form>
 
-        <h2>To View Blogs</h2>
-        <a href="viewblogs.php" >View Blogs</a>
 
         <div>
                     <?php

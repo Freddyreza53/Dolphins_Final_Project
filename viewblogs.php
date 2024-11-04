@@ -23,9 +23,6 @@
 
         <h1>Blogs</h1>
 
-        <h2>To Create Blogs</h2>
-        <a href="newblogcreation.php" >Create Blog</a>
-
         <div>
             <table id="blogsTable" class="display">
                 <thead>
