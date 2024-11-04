@@ -27,17 +27,14 @@
         <h1>Welcome to Photos ABCD</h1>
         <p> Created by Team Dolphins </p>
 
-        <h2>To Login</h2>
-        <a href="loginpage.php" > Login</a>
-
-        <h2>To Register</h2>
-        <a href="registerpage.php" > Register</a>
-
-        <h2>To View Blogs</h2>
-        <a href="viewblogs.php" >View Blogs</a>
-
-        <h2>To Create Blogs</h2>
-        <a href="newblogcreation.php" >Create Blog</a>
+        <div class="navbar">
+            <a href="homepage.php" >Home</a>
+        	<a href="loginpage.php">Login</a>
+        	<a href="logoutpage.php">Logout</a>
+        	<a href="registerpage.php">Register</a>
+        	<a href="viewblogs.php">View Blogs</a>
+        	<a href="newblogcreation.php">Create Blog</a>
+        </div>
 
         <div>
             <table id="blogsTable" class="display">
