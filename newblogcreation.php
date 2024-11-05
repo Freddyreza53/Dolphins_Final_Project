@@ -25,7 +25,7 @@
         <!-- Blog Form -->
         <form method="POST" action="" enctype="multipart/form-data">
             <label for="title">Title:</label>
-            <input type="text" id="title" name="title" pattern="[\w]*"
+            <input type="text" id="title" name="title" pattern="^[a-zA-Z0-9][\w\s]*"
             title="Blog Title can't contain a symbol" required><br>
             <!-- Fix regex later to allow symbols after first character-->
 
@@ -79,7 +79,7 @@
                                     echo "Error details: " . error_get_last()['message'] . "<br>";
                                 }
                             } else {
-                                echo "No image uploaded or there was an error with the upload.<br>";
+                                echo "No image uploaded.<br>";
                             }
 
                             echo "New blog added successfully";

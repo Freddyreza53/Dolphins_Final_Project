@@ -4,7 +4,7 @@
 
     if ($_SESSION['user']) {
         $user = $_SESSION['user'];
-        $sql = "SELECT * FROM blogs WHERE privacy_filter = 'private' ORDER BY event_date ASC";
+        $sql = "SELECT * FROM blogs ORDER BY event_date ASC";
     } else {
         $sql = "SELECT * FROM blogs WHERE privacy_filter = 'public' ORDER BY event_date ASC";
     }
@@ -45,7 +45,7 @@
                         <th>description</th>
                         <th>creator_email</th>
                         <th>event_date</th>
-                        <th>Action</th>
+                        <th>Image</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,7 +58,18 @@
                             echo "<td>" . htmlspecialchars($row["description"]) . "</td>";
                             echo "<td>" . htmlspecialchars($row["creator_email"]) . "</td>";
                             echo "<td>" . htmlspecialchars($row["event_date"]) . "</td>";
-                            echo "<td><a href='images/" . $row["blog_id"] . "/" . $row["blog_id"] ."'>View</a></td>";
+
+                            $image_path = "images/" . $row["blog_id"] . "/" . $row["blog_id"];
+                            $default_image = "images/default_images/default-featured-image.jpg"; // Path to the default image
+
+                            if (!file_exists($image_path)) {
+                                $image_path = $default_image;
+                            }
+                            
+                            
+                            // echo "<td><a href='" . $image_path . "'>View</a></td>";
+                            echo "<td><img src='" . $image_path . "' alt='Image' width='100' height='100'></td>";
+                            // echo "<td><a href='images/" . $row["blog_id"] . "/" . $row["blog_id"] ."'>View</a></td>";
                             echo "</tr>";
                         }
                     } else {
