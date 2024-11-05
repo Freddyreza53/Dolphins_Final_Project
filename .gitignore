@@ -1,0 +1,8 @@
+# Ignore all files within the images directory
+images/*
+
+# Do not ignore the images directory itself
+!images/
+
+# Do not ignore the default_images directory
+!images/default_images/
