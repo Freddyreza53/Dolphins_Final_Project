@@ -29,14 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <h1>Photos ABCD</h1>
 
-    <div class="navbar">
-        <a href="homepage.php" >Home</a>
-        <a href="loginpage.php">Login</a>
-        <a href="logoutpage.php">Logout</a>
-        <a href="registerpage.php">Register</a>
-        <a href="viewblogs.php">View Blogs</a>
-        <a href="newblogcreation.php">Create Blog</a>
-     </div>
+    <?php include 'navbar.php'; ?>
+    <?php show_navbar(); ?>
 
 
     <form method="POST" action="">
