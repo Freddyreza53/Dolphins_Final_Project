@@ -1,5 +1,4 @@
 <?php
-include 'show-button.php';
 
 function show_navbar() {
     echo '<div class="navbar">
@@ -10,7 +9,8 @@ function show_navbar() {
                   	<a href="viewblogs.php">View Blogs</a>
                   	<a href="newblogcreation.php">Create Blog</a>';
 
-		//code from learnandhelp example, may be used later
+		//code for checking if other options should be added
+		//to be fine tuned soon
       /*if (isset($_SESSION['email'])) {
         if ($_SESSION['role'] == 'admin') {
           echo '<a href="administration.php">Administration</a>';
