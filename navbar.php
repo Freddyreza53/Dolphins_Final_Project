@@ -7,10 +7,12 @@ function show_navbar() {
                   	<a href="logoutpage.php">Logout</a>
                   	<a href="registerpage.php">Register</a>
                   	<a href="viewblogs.php">View Blogs</a>
-                  	<a href="newblogcreation.php">Create Blog</a>';
+                  	<a href="newblogcreation.php">Create Blog</a>
+                  	<a href="userview.php">View Blogs</a>
+                  	<a href="adminviewpage.php">View Blogs</a>';
 
 		//code for checking if other options should be added
-		//to be fine tuned soon
+		//to be fine-tuned soon
       /*if (isset($_SESSION['email'])) {
         if ($_SESSION['role'] == 'admin') {
           echo '<a href="administration.php">Administration</a>';
