@@ -1,6 +1,19 @@
 <?php
     session_start();
     require 'db.php'; // Include database connection
+    require 'adminCheck.php'; // Include the admin check logic
+
+    // Check if the user is logged in
+    if (!isset($_SESSION['user'])) {
+        header("Location: loginpage.php");
+        exit();
+    }
+
+    // Check if the user is an admin
+    if (!isAdmin()) {
+        header("Location: loginpage.php");
+        exit();
+    }
 
     if ($_SESSION['user']) {
         $user = $_SESSION['user'];
@@ -8,7 +21,6 @@
     } else {
         $sql = "SELECT * FROM blogs WHERE privacy_filter = 'public' ORDER BY event_date ASC";
     }
-
     
     $result = $conn->query($sql);
 
