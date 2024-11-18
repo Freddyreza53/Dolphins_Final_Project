@@ -8,8 +8,8 @@ function show_navbar() {
                   	<a href="registerpage.php">Register</a>
                   	<a href="viewblogs.php">View Blogs</a>
                   	<a href="newblogcreation.php">Create Blog</a>
-                  	<a href="userview.php">View Blogs</a>
-                  	<a href="adminviewpage.php">View Blogs</a>';
+                  	<a href="userview.php">User View</a>
+                  	<a href="adminviewpage.php">Administration</a>';
 
 		//code for checking if other options should be added
 		//to be fine-tuned soon
