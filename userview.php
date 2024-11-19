@@ -5,12 +5,8 @@
     //change logic later to only show blogs based on email: only current user's blogs should show
     if ($_SESSION['user']) {
         $user = $_SESSION['user'];
-        $sql = "SELECT * FROM blogs ORDER BY event_date ASC";
-    } else {
-        $sql = "SELECT * FROM blogs WHERE privacy_filter = 'public' ORDER BY event_date ASC";
+        $sql = "SELECT * FROM `blogs` WHERE `creator_email` =  '" . $user['email'] . "' ORDER BY event_date ASC";
     }
-
-
     $result = $conn->query($sql);
 
 ?>

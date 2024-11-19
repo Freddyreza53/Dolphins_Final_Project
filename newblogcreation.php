@@ -1,91 +1,72 @@
+<?php
+session_start();
+require 'db.php'; // Include database connection
+include 'navbar.php';
+
+// Debugging: Check if the session variable is set
+if (!isset($_SESSION['email'])) {
+    echo "Error: User is not logged in.";
+    exit();
+}
+
+// Handle insert request
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
+    $title = $conn->real_escape_string($_POST["title"]);
+    $description = $conn->real_escape_string($_POST["description"]);
+    $creator_email = $conn->real_escape_string($_SESSION['email']);
+    $event_date = $conn->real_escape_string($_POST["event_date"]);
+
+    $insert_sql = "INSERT INTO blogs (title, description, creator_email, event_date)
+                VALUES ('$title', '$description', '$creator_email', '$event_date')";
+
+    if ($conn->query($insert_sql) === TRUE) {
+        $blog_id = $conn->insert_id; // Get the ID of the newly created blog post
+
+        // Handle file upload
+        if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+            $image_dir = "images/$blog_id";
+            if (!is_dir($image_dir)) {
+                mkdir($image_dir, 0777, true);
+            } else {
+                echo "Directory already exists: $image_dir<br>";
+            }
+
+            $image_path = $image_dir . '/' . basename($_FILES['image']['name']);
+            move_uploaded_file($_FILES['image']['tmp_name'], $image_path);
+        }
+
+        header("Location: userview.php");
+    } else {
+        echo "Error: " . $insert_sql . "<br>" . $conn->error;
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>New Blog</title>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-        <link rel="stylesheet" type="text/css" href="styles.css">
-        <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-        <script type="text/javascript" charset="utf8" src="scripts.js"></script>
-    </head>
-    <body>
+<head>
+    <title>Photos ABCD</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/javascript" charset="utf8" src="scripts.js"></script>
+</head>
+<body>
+    <?php show_navbar() ?>
+    
+    <h1>Create New Blog</h1>
+    <form method="post" enctype="multipart/form-data">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required><br>
 
-        <h1>Photos ABCD</h1>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea><br>
 
-        <?php include 'navbar.php'; ?>
-        <?php show_navbar(); ?>
+        <label for="event_date">Event Date:</label>
+        <input type="date" id="event_date" name="event_date" required><br>
 
-        <h1>Create Blog</h1>
-        <!-- Blog Form -->
-        <form method="POST" action="" enctype="multipart/form-data">
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" pattern="^[a-zA-Z0-9][\w\s]*"
-            title="Blog Title can't contain a symbol" required><br>
-            <!-- Fix regex later to allow symbols after first character-->
+        <label for="image">Upload Image:</label>
+        <input type="file" id="image" name="image" accept="image/*"><br>
 
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" required></textarea><br>
-
-            <label for="creator_email">Creator Email:</label>
-            <input type="email" id="creator_email" name="creator_email" required><br>
-
-            <label for="event_date">Event Date:</label>
-            <input type="date" id="event_date" name="event_date" required><br>
-
-            <label for="image">Upload Image:</label>
-            <input type="file" id="image" name="image" accept="image/*"><br>
-
-            <input type="submit" name="submit" value="Add Blog">
-        </form>
-
-
-        <div>
-                    <?php
-                    require 'db.php'; // Include database connection
-
-                    // Handle insert request
-                    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
-                        $title = $conn->real_escape_string($_POST["title"]);
-                        $description = $conn->real_escape_string($_POST["description"]);
-                        $creator_email = $conn->real_escape_string($_POST["creator_email"]);
-                        $event_date = $conn->real_escape_string($_POST["event_date"]);
-
-                        $insert_sql = "INSERT INTO blogs (title, description, creator_email, event_date)
-                                    VALUES ('$title', '$description', '$creator_email', '$event_date')";
-
-                        if ($conn->query($insert_sql) === TRUE) {
-                            $blog_id = $conn->insert_id; // Get the ID of the newly created blog post
-
-                            // Handle file upload
-                            if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-                                $image_dir = "images/$blog_id";
-                                if (!is_dir($image_dir)) {
-                                    mkdir($image_dir, 0777, true);
-                                } else {
-                                    echo "Directory already exists: $image_dir<br>";
-                                }
-                    
-                                $image_path = $image_dir . '/' . $blog_id;
-                                if (move_uploaded_file($_FILES['image']['tmp_name'], $image_path)) {
-                                    echo "Image uploaded successfully: $image_path<br>";
-                                } else {
-                                    echo "Error uploading image.<br>";
-                                    echo "Error details: " . error_get_last()['message'] . "<br>";
-                                }
-                            } else {
-                                echo "No image uploaded.<br>";
-                            }
-
-                            echo "New blog added successfully";
-                            // header("Location: viewblogs.php"); this will move user to viewblogs.php
-                        } else {
-                            echo "Error: " . $insert_sql . "<br>" . $conn->error;
-                        }
-                    }
-
-                    // Close connection
-                    $conn->close();
-                    ?>
-        </div>
-    </body>
+        <input type="submit" name="submit" value="Add Blog">
+    </form>
+</body>
 </html>
