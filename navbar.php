@@ -1,15 +1,24 @@
 <?php
+session_start();
 
 function show_navbar() {
-    echo '<div class="navbar">
-                      <a href="homepage.php" >Home</a>
-                  	<a href="loginpage.php">Login</a>
-                  	<a href="logoutpage.php">Logout</a>
-                  	<a href="registerpage.php">Register</a>
-                  	<a href="viewblogs.php">View Blogs</a>
-                  	<a href="newblogcreation.php">Create Blog</a>
-                  	<a href="userview.php">User View</a>
-                  	<a href="adminviewpage.php">Administration</a>';
+  echo '<div class="navbar">
+            <a href="homepage.php">Home</a>';
+
+    if (isset($_SESSION['user']) && $_SESSION['user'] != '') {
+        echo '<a href="logoutpage.php">Logout</a>';
+        echo '<a href="viewblogs.php">Alphabet Book</a>';
+        echo '<a href="newblogcreation.php">Create Blog</a>';
+        echo '<a href="userview.php">My Blogs</a>';
+
+        if ($_SESSION['role'] == 'admin') {
+            echo '<a href="adminviewpage.php">Administration</a>';
+        }
+    } else {
+        echo '<a href="loginpage.php">Login</a>';
+        echo '<a href="registerpage.php">Register</a>';
+    }
+  
 
 		//code for checking if other options should be added
 		//to be fine-tuned soon

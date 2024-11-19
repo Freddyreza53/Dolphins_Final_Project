@@ -1,12 +1,27 @@
 <?php
     session_start();
     require 'db.php'; // Include database connection
+    require 'adminCheck.php'; // Include the admin check logic
 
-    //change logic later to only show blogs based on email: only current user's blogs should show
+    // Check if the user is logged in
+    if (!isset($_SESSION['user'])) {
+        header("Location: loginpage.php");
+        exit();
+    }
+
+    // Check if the user is an admin
+    if (!isAdmin()) {
+        header("Location: loginpage.php");
+        exit();
+    }
+
     if ($_SESSION['user']) {
         $user = $_SESSION['user'];
-        $sql = "SELECT * FROM `blogs` WHERE `creator_email` =  '" . $user['email'] . "' ORDER BY event_date ASC";
+        $sql = "SELECT * FROM blogs ORDER BY event_date ASC";
+    } else {
+        $sql = "SELECT * FROM blogs WHERE privacy_filter = 'public' ORDER BY event_date ASC";
     }
+    
     $result = $conn->query($sql);
 
 ?>
@@ -15,17 +30,16 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>User View</title>
+        <title>Photos ABCD</title>
         <link rel="stylesheet" type="text/css" href="styles.css">
         <script type="text/javascript" charset="utf8" src="scripts.js"></script>
     </head>
     <body>
 
         <h1>Welcome to Photos ABCD</h1>
+        <p> Created by Team Dolphins </p>
 
         <?php include 'navbar.php'; ?>
-        <?php show_navbar(); ?>
-
 
         <div>
             <table id="blogsTable" class="display">
@@ -56,8 +70,8 @@
                             if (!file_exists($image_path)) {
                                 $image_path = $default_image;
                             }
-
-
+                            
+                            
                             // echo "<td><a href='" . $image_path . "'>View</a></td>";
                             echo "<td><img src='" . $image_path . "' alt='Image' width='100' height='100'></td>";
                             // echo "<td><a href='images/" . $row["blog_id"] . "/" . $row["blog_id"] ."'>View</a></td>";

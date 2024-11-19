@@ -15,6 +15,8 @@
 
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user'] = $user;
+            $_SESSION['role'] = $user['role'];
+            $_SESSION['email'] = $user['email'];
             header("Location: homepage.php");
         } else {
             echo "Invalid email or password";
@@ -25,7 +27,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Login</title>
+        <title>Photos ABCD</title>
         <link rel="stylesheet" type="text/css" href="styles.css">
         <script type="text/javascript" charset="utf8" src="scripts.js"></script>
     </head>

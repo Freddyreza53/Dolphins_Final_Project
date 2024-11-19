@@ -4,6 +4,7 @@
 
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['user'] = '';
+        header("Location: homepage.php");
     }
 ?>
 

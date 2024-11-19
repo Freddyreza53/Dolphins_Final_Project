@@ -6,3 +6,5 @@ images/*
 
 # Do not ignore the default_images directory
 !images/default_images/
+
+*.code-workspace
