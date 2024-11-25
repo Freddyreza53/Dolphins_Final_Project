@@ -21,7 +21,7 @@
     </head>
     <body>
 
-        <h1>Welcome to Photos ABCD</h1>
+        <h1>Photos ABCD</h1>
 
         <?php include 'navbar.php'; ?>
         <?php show_navbar(); ?>

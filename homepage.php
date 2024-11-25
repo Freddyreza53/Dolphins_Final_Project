@@ -34,47 +34,41 @@
         <?php show_navbar(); ?>
 
 
-        <div>
-            <table id="blogsTable" class="display">
-                <thead>
-                    <tr>
-                        <th>blog_id</th>
-                        <th>title</th>
-                        <th>description</th>
-                        <th>creator_email</th>
-                        <th>event_date</th>
-                        <th>Image</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    if ($result->num_rows > 0) {
-                        while($row = $result->fetch_assoc()) {
-                            echo "<tr>";
-                            echo "<td>" . htmlspecialchars($row["blog_id"]) . "</td>";
-                            echo "<td>" . htmlspecialchars($row["title"]) . "</td>";
-                            echo "<td>" . htmlspecialchars($row["description"]) . "</td>";
-                            echo "<td>" . htmlspecialchars($row["creator_email"]) . "</td>";
-                            echo "<td>" . htmlspecialchars($row["event_date"]) . "</td>";
+        <table id="view_blogs">
+            <?php
+                if ($result->num_rows > 0) {
+                $counter = 0;
+                    while ($row = $result->fetch_assoc()) {
+                         $time = time();
+                         $counter++;
+                         if ($counter == 0) {
+                             echo "<tr>";
+                         }
+                         $blogid = $row["blog_id"];
+                         $title = $row["title"];
+                    	 $image_path = "images/" . $row["blog_id"] . "/" . $row["blog_id"];
+                         $default_image = "images/default_images/default-featured-image.jpg"; // Path to the default image
 
-                            $image_path = "images/" . $row["blog_id"] . "/" . $row["blog_id"];
-                            $default_image = "images/default_images/default-featured-image.jpg"; // Path to the default image
+                         if (!file_exists($image_path)) {
+                            $image_path = $default_image;
+                         }
 
-                            if (!file_exists($image_path)) {
-                                $image_path = $default_image;
-                            }
-                            
-                            
-                            // echo "<td><a href='" . $image_path . "'>View</a></td>";
-                            echo "<td><img src='" . $image_path . "' alt='Image' width='100' height='100'></td>";
-                            // echo "<td><a href='images/" . $row["blog_id"] . "/" . $row["blog_id"] ."'>View</a></td>";
+                    	//Will make this look better visually. Need <a> tag to direct to singleblogview.php
+                    	echo "<td> <div class=\"blog-info\">
+                    	<img src='" . $image_path . "' alt='Image' width='100' height='100'>
+                    	<p>$blogid</p> <a href=\"singleblogview.php\">
+                    	<p>$title</p>
+                    	</div></td>";
+
+                        if ($counter % 5 == 0 && $counter > 0) {
                             echo "</tr>";
+                            if ($counter < $result->num_rows) {
+                                echo "<tr>";
+                            }
                         }
-                    } else {
-                        echo "0 results";
                     }
-                    ?>
-                </tbody>
-            </table>
+                }
+            ?>
+        </table>
     </body>
 </html>
