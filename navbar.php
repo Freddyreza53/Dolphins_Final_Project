@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start(); //pretty sure this is unneeded
 
 function show_navbar() {
   echo '<div class="navbar">
@@ -7,7 +7,7 @@ function show_navbar() {
 
     if (isset($_SESSION['user']) && $_SESSION['user'] != '') {
         echo '<a href="logoutpage.php">Logout</a>';
-        echo '<a href="viewblogs.php">Alphabet Book</a>';
+        echo '<a href="alphabetbook.php">Alphabet Book</a>';
         echo '<a href="newblogcreation.php">Create Blog</a>';
         echo '<a href="userview.php">My Blogs</a>';
 

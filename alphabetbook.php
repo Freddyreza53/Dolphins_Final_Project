@@ -1,7 +1,14 @@
-<!DOCTYPE html>
+<?php
+    session_start();
+    require 'db.php'; // Include database connection
+
+
+?>
+
+!DOCTYPE html>
 <html>
     <head>
-        <title>View Blogs</title>
+        <title>Alphabet Book</title>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
         <link rel="stylesheet" type="text/css" href="styles.css">
         <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>

@@ -50,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     <script type="text/javascript" charset="utf8" src="scripts.js"></script>
 </head>
 <body>
+    <h1>Photos ABCD</h1>
     <?php show_navbar() ?>
     
     <h1>Create New Blog</h1>
