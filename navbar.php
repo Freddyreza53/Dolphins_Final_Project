@@ -18,18 +18,7 @@ function show_navbar() {
         echo '<a href="loginpage.php">Login</a>';
         echo '<a href="registerpage.php">Register</a>';
     }
-  
 
-		//code for checking if other options should be added
-		//to be fine-tuned soon
-      /*if (isset($_SESSION['email'])) {
-        if ($_SESSION['role'] == 'admin') {
-          echo '<a href="administration.php">Administration</a>';
-        }
-        echo '<a href="registration_form.php" id="register">Enroll Now</a>';
-      }elseif(isset($_SESSION['email']) == false){
-        echo '<a href="login.php" id="register">Enroll Now</a>';
-      } */
        echo '</div>';
 
 }
