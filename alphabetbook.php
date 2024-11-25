@@ -5,7 +5,7 @@
 
 ?>
 
-!DOCTYPE html>
+<!DOCTYPE html>
 <html>
     <head>
         <title>Alphabet Book</title>
