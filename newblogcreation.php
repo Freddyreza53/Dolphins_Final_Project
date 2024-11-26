@@ -3,7 +3,6 @@ session_start();
 require 'db.php'; // Include database connection
 include 'navbar.php';
 
-// Debugging: Check if the session variable is set
 if (!isset($_SESSION['email'])) {
     echo "Error: User is not logged in.";
     exit();
