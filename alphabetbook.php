@@ -1,14 +1,14 @@
 <?php
     session_start();
     require 'db.php'; // Include database connection
-
+    include 'navbar.php'; 
 
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Alphabet Book</title>
+        <title>Photos ABCD</title>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
         <link rel="stylesheet" type="text/css" href="styles.css">
         <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -18,11 +18,9 @@
     <body>
 
         <h1>Photos ABCD</h1>
-
-        <?php include 'navbar.php'; ?>
         <?php show_navbar(); ?>
 
-        <h1>Blogs</h1>
+        <h1>Alphabet Book</h1>
 
 <!-- Alphabet Filter Dropdown -->
 <label for="alphabetFilter">Filter by Alphabet:</label>
