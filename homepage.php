@@ -1,6 +1,7 @@
 <?php
     session_start();
     require 'db.php'; // Include database connection
+    include 'navbar.php'; 
 
     if ($_SESSION['user']) {
         $user = $_SESSION['user'];
@@ -29,8 +30,6 @@
 
         <h1>Welcome to Photos ABCD</h1>
         <p> Created by Team Dolphins </p>
-
-        <?php include 'navbar.php'; ?>
         <?php show_navbar(); ?>
 
 

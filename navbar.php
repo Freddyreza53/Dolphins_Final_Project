@@ -12,8 +12,10 @@ function show_navbar() {
         echo '<a href="userview.php">My Blogs</a>';
 
         if ($_SESSION['role'] == 'admin') {
-            echo '<a href="adminviewpage.php">Administration</a>';
+            echo '<a href="adminviewpage.php">Admin</a>';
         }
+        
+        echo '<span>Welcome, ' . htmlspecialchars($_SESSION['first_name']) . '!</span>';
     } else {
         echo '<a href="loginpage.php">Login</a>';
         echo '<a href="registerpage.php">Register</a>';

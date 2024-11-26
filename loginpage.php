@@ -1,6 +1,7 @@
 <?php
     session_start();
     require 'db.php'; // Include database connection
+    include 'navbar.php'; 
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = $_POST['email'];
@@ -17,6 +18,7 @@
             $_SESSION['user'] = $user;
             $_SESSION['role'] = $user['role'];
             $_SESSION['email'] = $user['email'];
+            $_SESSION['first_name'] = $user['first_name']; 
             header("Location: homepage.php");
         } else {
             echo "Invalid email or password";
@@ -34,8 +36,6 @@
     <body>
 
         <h1>Photos ABCD</h1>
-
-        <?php include 'navbar.php'; ?>
         <?php show_navbar(); ?>
 
         <h1>Login</h1>

@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Logout</title>
+        <title>Photos ABCD</title>
         <link rel="stylesheet" type="text/css" href="styles.css">
         <script type="text/javascript" charset="utf8" src="scripts.js"></script>
     </head>
