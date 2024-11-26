@@ -17,8 +17,8 @@
 
     // Handle delete request for users
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete_user"])) {
-        $user_id = $conn->real_escape_string($_POST["user_id"]);
-        $delete_sql = "DELETE FROM users WHERE user_id = '$user_id'";
+        $email = $conn->real_escape_string($_POST["email"]);
+        $delete_sql = "DELETE FROM users WHERE email = '$email'";
         if ($conn->query($delete_sql) === TRUE) {
             echo "User deleted successfully";
         } else {
@@ -110,7 +110,7 @@
                                 echo "<td>" . htmlspecialchars($row["role"]) . "</td>";
                                 echo "<td>
                                         <form method='POST' action='' style='display:inline;'>
-                                            <input type='hidden' name='user_id' value='" . htmlspecialchars($row["user_id"]) . "'>
+                                            <input type='hidden' name='email' value='" . htmlspecialchars($row["email"]) . "'>
                                             <input type='submit' name='delete_user' value='Delete'>
                                         </form>
                                     </td>";
