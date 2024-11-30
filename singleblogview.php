@@ -2,16 +2,6 @@
     session_start();
     require 'db.php'; // Include database connection
 
-    if ($_SESSION['user']) {
-        $user = $_SESSION['user'];
-        $sql = "SELECT * FROM blogs ORDER BY event_date ASC";
-    } else {
-        $sql = "SELECT * FROM blogs WHERE privacy_filter = 'public' ORDER BY event_date ASC";
-    }
-
-
-    $result = $conn->query($sql);
-
 ?>
 
 
@@ -30,8 +20,55 @@
         <?php show_navbar(); ?>
 
 
-        <p> This page is for viewing one blog, that was clicked on, on the home page.
-            Will work this out later. </p>
+        <table id="view_blog">
+        		<?php
+        		    //displaying the single blog
+        			$url =  isset($_SERVER['HTTPS']) &&
+        				$_SERVER['HTTPS'] === 'on' ? "https://" : "http://";
+        			$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+        			$currentID = (explode("=",$url));
+        			$currentblog = $currentID[1];
+        			$sql = "SELECT * FROM blogs WHERE blog_id = '$currentblog'";
+        			$result = $conn->query($sql);
+
+
+
+                    if ($result->num_rows > 0) {
+                        $counter = 0;
+                        while ($row = $result->fetch_assoc()) {
+                            $time = time();
+                            $counter++;
+                            if ($counter == 0) {
+                                echo "<tr>";
+                            }
+                            $blogid = $row["blog_id"];
+                            $title = $row["title"];
+        					$description = $row["description"];
+        					$creatoremail = $row["creator_email"];
+        					$eventdate = $row["event_date"];
+        					$image_path = "images/" . $row["blog_id"] . "/" . $row["blog_id"];
+                            $default_image = "images/default_images/default-featured-image.jpg"; // Path to the default image
+
+                            if (!file_exists($image_path)) {
+                                $image_path = $default_image;
+                            }
+
+
+        					echo "<td> <div class=\"blog-info\">
+        					<img src='" . $image_path . "' alt='Image' width='100' height='100'>
+        					<p>Blog ID: $blogid</p>
+        					<p>Title: $title</p>
+        					<p>$description</p>
+        					<p>Created by: $creatoremail</p>
+        					<p>Created on: $eventdate</p>
+        					</div></td>";
+
+
+                        }
+                    }
+                ?>
+        </table>
 
 
     </body>

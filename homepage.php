@@ -52,7 +52,7 @@
                             $image_path = $default_image;
                          }
 
-                    	//Will make this look better visually. Need <a> tag to direct to singleblogview.php
+                    	//Will make this look better visually.
                     	echo "<td> <div class=\"blog-info\">
                     	<img src='" . $image_path . "' alt='Image' width='100' height='100'>
                     	<p>$blogid</p> <a href=\"singleblogview.php\">
