@@ -15,7 +15,7 @@ function show_navbar() {
             echo '<a href="adminviewpage.php">Admin</a>';
         }
         
-        echo '<span>Welcome, ' . htmlspecialchars($_SESSION['first_name']) . '!</span>';
+        echo '<p style="color:#f2f2f2; font-size:16px;">Welcome, ' . htmlspecialchars($_SESSION['first_name']) . '!</p>';
     } else {
         echo '<a href="loginpage.php">Login</a>';
         echo '<a href="registerpage.php">Register</a>';
