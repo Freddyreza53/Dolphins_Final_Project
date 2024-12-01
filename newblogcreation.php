@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
 
         // Handle file upload
         if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+
             $image_dir = "images/$blog_id";
             if (!is_dir($image_dir)) {
                 mkdir($image_dir, 0777, true);
@@ -30,11 +31,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                 echo "Directory already exists: $image_dir<br>";
             }
 
-            $image_path = $image_dir . '/' . basename($_FILES['image']['name']);
+            $image_path = $image_dir . '/' . $blog_id;
             move_uploaded_file($_FILES['image']['tmp_name'], $image_path);
         }
 
-        header("Location: userview.php");
+        header("Location: myBlogsPage.php");
     } else {
         echo "Error: " . $insert_sql . "<br>" . $conn->error;
     }

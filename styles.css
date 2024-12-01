@@ -41,6 +41,14 @@ tr:nth-child(even) {
   font-size: 17px;
 }
 
+.navbar p {
+  float: right;
+  color: #f2f2f2;
+  text-align: center;
+  padding-right: 10px;
+  margin-bottom: auto;
+}
+
 .navbar a:hover {
   background-color: #ddd;
   color: black;

@@ -1,5 +1,6 @@
 <?php
 require 'db.php'; // Include database connection
+include 'navbar.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
@@ -22,16 +23,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Register</title>
+    <title>Photos ABCD</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <script type="text/javascript" charset="utf8" src="scripts.js"></script>
 </head>
 <body>
     <h1>Photos ABCD</h1>
 
-    <?php include 'navbar.php'; ?>
     <?php show_navbar(); ?>
 
+    <h1>Register:</h1>
 
     <form method="POST" action="">
         <label for="email">Email:</label>

@@ -9,13 +9,13 @@ function show_navbar() {
         echo '<a href="logoutpage.php">Logout</a>';
         echo '<a href="alphabetbook.php">Alphabet Book</a>';
         echo '<a href="newblogcreation.php">Create Blog</a>';
-        echo '<a href="userview.php">My Blogs</a>';
+        echo '<a href="myBlogsPage.php">My Blogs</a>';
 
         if ($_SESSION['role'] == 'admin') {
             echo '<a href="adminviewpage.php">Admin</a>';
         }
         
-        echo '<p style="color:#f2f2f2; font-size:16px;">Welcome, ' . htmlspecialchars($_SESSION['first_name']) . '!</p>';
+        echo '<p>Welcome, ' . htmlspecialchars($_SESSION['first_name']) . '!</p>';
     } else {
         echo '<a href="loginpage.php">Login</a>';
         echo '<a href="registerpage.php">Register</a>';
