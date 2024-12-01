@@ -3,6 +3,15 @@
     require 'db.php'; // Include database connection
     include 'navbar.php'; 
 
+    // Handle delete request
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete"])) {
+        $$blog_id = $_POST["blog_id"];
+        if (delete_blog($blog_id)) {
+            echo "Blog deleted successfully";
+        } else {
+            echo "Error: Could not delete blog";
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -54,19 +63,6 @@
         </thead>
         <tbody>
             <?php
-            require 'db.php'; // Include database connection
-
-            // Handle delete request
-            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete"])) {
-                $blog_id = $conn->real_escape_string($_POST["blog_id"]);
-                $delete_sql = "DELETE FROM blogs WHERE blog_id = '$blog_id'";
-                if ($conn->query($delete_sql) === TRUE) {
-                    echo "Blog deleted successfully";
-                } else {
-                    echo "Error: " . $delete_sql . "<br>" . $conn->error;
-                }
-            }
-
             // Fetch blog data from the database
             $sql = "SELECT blog_id, title, description, creator_email, event_date FROM blogs";
             $result = $conn->query($sql);

@@ -1,28 +1,26 @@
 <?php
-    //session_start();
-    require 'db.php'; // Include database connection
-    require 'adminCheck.php';
-    include 'navbar.php'; 
+    session_start();
+    require 'dbCommonRequests.php'; // Include database connection
+    require 'adminCheck.php'; // Include admin check
+    include 'navbar.php';
 
     // Handle delete request for blogs
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete_blog"])) {
-        $blog_id = $conn->real_escape_string($_POST["blog_id"]);
-        $delete_sql = "DELETE FROM blogs WHERE blog_id = '$blog_id'";
-        if ($conn->query($delete_sql) === TRUE) {
+        $blog_id = $_POST["blog_id"];
+        if (delete_blog($blog_id)) {
             echo "Blog deleted successfully";
         } else {
-            echo "Error: " . $delete_sql . "<br>" . $conn->error;
+            echo "Error: Could not delete blog";
         }
     }
 
     // Handle delete request for users
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete_user"])) {
-        $email = $conn->real_escape_string($_POST["email"]);
-        $delete_sql = "DELETE FROM users WHERE email = '$email'";
-        if ($conn->query($delete_sql) === TRUE) {
+        $email = $_POST["email"];
+        if (delete_user($email)) {
             echo "User deleted successfully";
         } else {
-            echo "Error: " . $delete_sql . "<br>" . $conn->error;
+            echo "Error: Could not delete user";
         }
     }
 
