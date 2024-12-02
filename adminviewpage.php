@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    //session_start();
     require 'dbCommonRequests.php'; // Include database connection
     require 'adminCheck.php'; // Include admin check
     include 'navbar.php';
