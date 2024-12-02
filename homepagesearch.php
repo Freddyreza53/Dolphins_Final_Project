@@ -117,17 +117,7 @@
 
 
 			elseif ($currentsearch == 'alphabetically') {
-				echo"<thead>
-                    <tr>
-                        <th>Blog ID</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Creator Email</th>
-                        <th>Event Date</th>
-						<th>Image</th>
-                    </tr>
-                </thead>
-                <tbody>";
+				echo"<tbody>";
 
                     $sql = "SELECT * FROM blogs WHERE privacy_filter = 'public' ORDER BY title ASC";
                     $result = $conn->query($sql);
@@ -163,6 +153,9 @@
                         }
                     }
                 }
+            echo"
+            </tbody>
+             </table>";
 			}
 
 
