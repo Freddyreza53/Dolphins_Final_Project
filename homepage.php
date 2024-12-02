@@ -20,12 +20,14 @@
 			exit();
 
 		}
+
 	elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["alphabetically"])) {
 			$searchcode = 'alphabetically';
 			header("Location: homepagesearch.php?id=$searchcode");
 			exit();
 
 		}
+
 	elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$searchcode = $_POST['search'];
 			header("Location: homepagesearch.php?id=$searchcode");
@@ -65,9 +67,11 @@
 			<form method="POST" action="">
                 <input type="submit" name="tableview" value="Table View">
             </form>
+
 			<form method="POST" action="">
                 <input type="submit" name="alphabetically" value="Alphabetically">
             </form>
+
 
 		</div>
 

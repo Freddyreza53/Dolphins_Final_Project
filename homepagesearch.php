@@ -3,6 +3,7 @@
     require 'db.php'; // Include database connection
 
 	if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["tableview"])) {
+
 			$searchcode = 'tableview';
 			header("Location: homepagesearch.php?id=$searchcode");
 			exit();
@@ -14,12 +15,13 @@
 			exit();
 
 		}
-	elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			$searchcode = $_POST['search'];
-			header("Location: homepagesearch.php?id=$searchcode");
-			exit();
 
-		}
+    	elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    			$searchcode = $_POST['search'];
+    			header("Location: homepagesearch.php?id=$searchcode");
+    			exit();
+
+    		}
 
 ?>
 
@@ -54,9 +56,11 @@
 			<form method="POST" action="">
                 <input type="submit" name="tableview" value="Table View">
             </form>
+
 			<form method="POST" action="">
                 <input type="submit" name="alphabetically" value="Alphabetically">
             </form>
+
 
 		</div>
 
@@ -111,6 +115,7 @@
                     }
 			}
 
+
 			elseif ($currentsearch == 'alphabetically') {
 				echo"<thead>
                     <tr>
@@ -159,6 +164,7 @@
                     }
                 }
 			}
+
 
 			elseif ($currentsearch == '') {
 				echo"
