@@ -4,10 +4,10 @@
     include 'navbar.php';
 
     if ($_SESSION['user']) {
-            $user = $_SESSION['user'];
-            $sql = "SELECT * FROM blogs ORDER BY title ASC";
+        $user = $_SESSION['user'];
+        $sql = "SELECT * FROM blogs ORDER BY title ASC";
     } else {
-            $sql = "SELECT * FROM blogs WHERE privacy_filter = 'public' ORDER BY title ASC";
+        $sql = "SELECT * FROM blogs WHERE privacy_filter = 'public' ORDER BY event_date DESC";
     }
 
 
@@ -20,6 +20,14 @@
 			exit();
 
 		}
+
+	elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["alphabetically"])) {
+			$searchcode = 'alphabetically';
+			header("Location: homepagesearch.php?id=$searchcode");
+			exit();
+
+		}
+
 	elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$searchcode = $_POST['search'];
 			header("Location: homepagesearch.php?id=$searchcode");
@@ -59,6 +67,11 @@
 			<form method="POST" action="">
                 <input type="submit" name="tableview" value="Table View">
             </form>
+
+			<form method="POST" action="">
+                <input type="submit" name="alphabetically" value="Alphabetically">
+            </form>
+
 
 		</div>
 
