@@ -64,7 +64,7 @@
             <a href="adminviewpage.php?type=users">Users</a>
         </div>
 
-        <table id="admin_table">
+        <table id="blogsTable" class="display">
             <thead>
                 <tr>
                     <?php if ($type == 'blogs'): ?>

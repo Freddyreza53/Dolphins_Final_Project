@@ -14,9 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     $description = $conn->real_escape_string($_POST["description"]);
     $creator_email = $conn->real_escape_string($_SESSION['email']);
     $event_date = $conn->real_escape_string($_POST["event_date"]);
+    $privacy_filter = $conn->real_escape_string($_POST["privacy_filter"]);
 
-    $insert_sql = "INSERT INTO blogs (title, description, creator_email, event_date)
-                VALUES ('$title', '$description', '$creator_email', '$event_date')";
+    $insert_sql = "INSERT INTO blogs (title, description, creator_email, event_date, privacy_filter)
+                VALUES ('$title', '$description', '$creator_email', '$event_date', '$privacy_filter')";
 
     if ($conn->query($insert_sql) === TRUE) {
         $blog_id = $conn->insert_id; // Get the ID of the newly created blog post
@@ -68,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         <label for="privacy_filter">Public</label>
         
         <input type="radio" id="private" name="privacy_filter" value="private" <?php echo ($blog['privacy_filter'] == 'private') ? 'checked' : ''; ?>>
-        <label for="privacy_filter">Private</label>
+        <label for="privacy_filter">Private</label><br>
 
         <label for="image">Upload Image:</label>
         <input type="file" id="image" name="image" accept="image/*"><br>
