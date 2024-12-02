@@ -53,17 +53,12 @@
                 move_uploaded_file($_FILES['image']['tmp_name'], $image_path);
             }
 
-            header("Location: myBlogsPage.php");
+            header("Location: adminviewpage.php");
             exit();
         } else {
             echo "Error: " . $update_sql . "<br>" . $conn->error;
         }
     }
-
-    // Check if the blog has an existing image
-    $image_dir = "images/$blog_id";
-    $image_path = $image_dir . '/' . $blog_id;
-    $image_exists = file_exists($image_path);
 ?>
 
 <!DOCTYPE html>
@@ -95,14 +90,11 @@
         <input type="radio" id="private" name="privacy_filter" value="private" <?php echo ($blog['privacy_filter'] == 'private') ? 'checked' : ''; ?>>
         <label for="private">Private</label><br>
 
-        <?php if ($image_exists): ?>
-            <label for="remove_image">Remove Existing Image:</label>
-            <input type="checkbox" id="remove_image" name="remove_image" value="yes"><br>
-            <img src="<?php echo $image_path; ?>" alt="Existing Image" width="100" height="100"><br>
-        <?php else: ?>
-            <label for="image">Upload New Image:</label>
-            <input type="file" id="image" name="image" accept="image/*"><br>
-        <?php endif; ?>
+        <label for="image">Upload New Image:</label>
+        <input type="file" id="image" name="image" accept="image/*"><br>
+
+        <label for="remove_image">Remove Existing Image:</label>
+        <input type="checkbox" id="remove_image" name="remove_image" value="yes"><br>
 
         <input type="submit" name="update" value="Update Blog">
     </form>

@@ -21,6 +21,17 @@
         }
     }
 
+    // Handle update privacy filter request
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update_privacy"])) {
+        $privacy_filter = $_POST["privacy_filter"];
+        $update_sql = "UPDATE blogs SET privacy_filter = '$privacy_filter' WHERE creator_email = '$user_email'";
+        if ($conn->query($update_sql) === TRUE) {
+            echo "All blogs updated to $privacy_filter successfully";
+        } else {
+            echo "Error: Could not update blogs";
+        }
+    }
+
     // Fetch the user's blogs
     $sql = "SELECT * FROM blogs WHERE creator_email = '$user_email' ORDER BY event_date ASC";
     $result = $conn->query($sql);
@@ -41,6 +52,17 @@
         <?php show_navbar(); ?>
 
         <h1>My Blogs</h1>
+        <h3>Make all blogs private or public:</h3>
+        <div>
+            <form method="POST" action="" style="display:inline;">
+                <input type="hidden" name="privacy_filter" value="private">
+                <input type="submit" name="update_privacy" value="Private">
+            </form>
+            <form method="POST" action="" style="display:inline;">
+                <input type="hidden" name="privacy_filter" value="public">
+                <input type="submit" name="update_privacy" value="Public">
+            </form>
+        </div>
 
         <div>
             <table id="blogsTable" class="display">
