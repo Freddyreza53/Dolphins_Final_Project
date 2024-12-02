@@ -1,7 +1,7 @@
 <?php
     session_start();
     require 'db.php'; // Include database connection
-    include 'navbar.php'; 
+    include 'navbar.php';
 
     if ($_SESSION['user']) {
         $user = $_SESSION['user'];
@@ -10,10 +10,17 @@
         $sql = "SELECT * FROM blogs WHERE privacy_filter = 'public' ORDER BY event_date ASC";
     }
 
-    
+
     $result = $conn->query($sql);
 
-	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+	if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["tableview"])) {
+			$searchcode = 'tableview';
+			header("Location: homepagesearch.php?id=$searchcode");
+			exit();
+
+		}
+	elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$searchcode = $_POST['search'];
 			header("Location: homepagesearch.php?id=$searchcode");
 			exit();
@@ -39,8 +46,7 @@
         <p> Created by Team Dolphins </p>
         <?php show_navbar(); ?>
 
-		<!--May need more than one button, to handle each kind of Search:
-		Title, Description and EventDate-->
+
 		<br>
 		<div class="search-bar">
 			<form method="POST" action="">
@@ -49,6 +55,9 @@
             </form>
 			<form method="POST" action="">
                 <input type="submit" value="View By Date">
+            </form>
+			<form method="POST" action="">
+                <input type="submit" name="tableview" value="Table View">
             </form>
 
 		</div>
