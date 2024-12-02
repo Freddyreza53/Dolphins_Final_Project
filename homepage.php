@@ -13,13 +13,6 @@
     
     $result = $conn->query($sql);
 
-	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			$searchcode = $_POST['search'];
-			header("Location: homepagesearch.php?id=$searchcode");
-			exit();
-
-		}
-
 ?>
 
 
@@ -38,18 +31,6 @@
         <h1>Welcome to Photos ABCD</h1>
         <p> Created by Team Dolphins </p>
         <?php show_navbar(); ?>
-
-
-		<br>
-		<div class="search-bar">
-			<form method="POST" action="">
-                <input type="search" id="search" name="search" placeholder="Search" required>
-                <input type="submit" value="Search">
-            </form>
-			<form method="POST" action="">
-                <input type="submit" value="View By Date">
-            </form>
-		</div>
 
 
         <table id="view_blogs">
@@ -71,7 +52,7 @@
                             $image_path = $default_image;
                          }
 
-                    	//Maybe make this look better visually.
+                    	//Will make this look better visually.
                     	echo "<td> <div class=\"blog-info\">
                     	<img src='" . $image_path . "' alt='Image' width='100' height='100'>
                     	<p>$blogid</p> <a href=\"singleblogview.php?id=$blogid\">
