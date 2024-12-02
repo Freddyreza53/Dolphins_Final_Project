@@ -4,10 +4,10 @@
     include 'navbar.php';
 
     if ($_SESSION['user']) {
-        $user = $_SESSION['user'];
-        $sql = "SELECT * FROM blogs ORDER BY event_date ASC";
+            $user = $_SESSION['user'];
+            $sql = "SELECT * FROM blogs ORDER BY title ASC";
     } else {
-        $sql = "SELECT * FROM blogs WHERE privacy_filter = 'public' ORDER BY event_date ASC";
+            $sql = "SELECT * FROM blogs WHERE privacy_filter = 'public' ORDER BY title ASC";
     }
 
 
