@@ -13,6 +13,13 @@
     
     $result = $conn->query($sql);
 
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			$searchcode = $_POST['search'];
+			header("Location: homepagesearch.php?id=$searchcode");
+			exit();
+
+		}
+
 ?>
 
 
@@ -31,6 +38,20 @@
         <h1>Welcome to Photos ABCD</h1>
         <p> Created by Team Dolphins </p>
         <?php show_navbar(); ?>
+
+		<!--May need more than one button, to handle each kind of Search:
+		Title, Description and EventDate-->
+		<br>
+		<div class="search-bar">
+			<form method="POST" action="">
+                <input type="search" id="search" name="search" placeholder="Search" required>
+                <input type="submit" value="Search">
+            </form>
+			<form method="POST" action="">
+                <input type="submit" value="View By Date">
+            </form>
+
+		</div>
 
 
         <table id="view_blogs">
