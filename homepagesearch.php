@@ -3,11 +3,19 @@
     require 'db.php'; // Include database connection
 
 	if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["tableview"])) {
-    			$searchcode = 'tableview';
-    			header("Location: homepagesearch.php?id=$searchcode");
-    			exit();
 
-    		}
+			$searchcode = 'tableview';
+			header("Location: homepagesearch.php?id=$searchcode");
+			exit();
+
+		}
+	elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["alphabetically"])) {
+			$searchcode = 'alphabetically';
+			header("Location: homepagesearch.php?id=$searchcode");
+			exit();
+
+		}
+
     	elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
     			$searchcode = $_POST['search'];
     			header("Location: homepagesearch.php?id=$searchcode");
@@ -48,6 +56,11 @@
 			<form method="POST" action="">
                 <input type="submit" name="tableview" value="Table View">
             </form>
+
+			<form method="POST" action="">
+                <input type="submit" name="alphabetically" value="Alphabetically">
+            </form>
+
 
 		</div>
 
@@ -101,6 +114,50 @@
                         }
                     }
 			}
+
+
+			elseif ($currentsearch == 'alphabetically') {
+				echo"<tbody>";
+
+                    $sql = "SELECT * FROM blogs WHERE privacy_filter = 'public' ORDER BY title ASC";
+                    $result = $conn->query($sql);
+				if ($result->num_rows > 0) {
+                $counter = 0;
+                    while ($row = $result->fetch_assoc()) {
+                         $time = time();
+                         $counter++;
+                         if ($counter == 0) {
+                             echo "<tr>";
+                         }
+                         $blogid = $row["blog_id"];
+                         $title = $row["title"];
+                    	 $image_path = "images/" . $row["blog_id"] . "/" . $row["blog_id"];
+                         $default_image = "images/default_images/default-featured-image.jpg"; // Path to the default image
+
+                         if (!file_exists($image_path)) {
+                            $image_path = $default_image;
+                         }
+
+
+                    	echo "<td> <div class=\"blog-info\">
+                    	<img src='" . $image_path . "' alt='Image' width='100' height='100'>
+                    	<p>$blogid</p> <a href=\"singleblogview.php?id=$blogid\">
+                    	<p>$title</p>
+                    	</div></td>";
+
+                        if ($counter % 5 == 0 && $counter > 0) {
+                            echo "</tr>";
+                            if ($counter < $result->num_rows) {
+                                echo "<tr>";
+                            }
+                        }
+                    }
+                }
+            echo"
+            </tbody>
+             </table>";
+			}
+
 
 			elseif ($currentsearch == '') {
 				echo"
@@ -166,7 +223,7 @@
                         $image_path = $default_image;
                     }
 
-					//Maybe make this look better visually.
+
 					echo "<td> <div class=\"blog-info\">
 					<img src='" . $image_path . "' alt='Image' width='100' height='100'>
 					<p>$blogid</p> <a href=\"singleblogview.php?id=$blogid\">
