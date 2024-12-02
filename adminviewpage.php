@@ -26,6 +26,15 @@
 
     // Determine which data to display
     $type = isset($_GET['type']) ? $_GET['type'] : 'blogs';
+
+    // Fetch data based on the type
+    if ($type == 'blogs') {
+        $sql = "SELECT * FROM blogs ORDER BY event_date ASC";
+    } else {
+        $sql = "SELECT * FROM users ORDER BY email ASC";
+    }
+
+    $result = $conn->query($sql);
 ?>
 
 
@@ -55,7 +64,7 @@
             <a href="adminviewpage.php?type=users">Users</a>
         </div>
 
-        <table id="admin_table">
+        <table id="blogsTable" class="display">
             <thead>
                 <tr>
                     <?php if ($type == 'blogs'): ?>
@@ -63,12 +72,14 @@
                         <th>Title</th>
                         <th>Description</th>
                         <th>Creator Email</th>
+                        <th>Privacy Filter</th>
                         <th>Event Date</th>
+                        <th>Image</th>
                         <th>Actions</th>
                     <?php else: ?>
+                        <th>Email</th>
                         <th>First Name</th>
                         <th>Last Name</th>
-                        <th>Email</th>
                         <th>Role</th>
                         <th>Actions</th>
                     <?php endif; ?>
@@ -76,45 +87,55 @@
             </thead>
                 <tbody>
                     <?php
-                    if ($type == 'blogs') {
-                        $sql = "SELECT blog_id, title, description, creator_email, event_date FROM blogs";
-                        $result = $conn->query($sql);
-                        if ($result->num_rows > 0) {
-                            while($row = $result->fetch_assoc()) {
-                                echo "<tr>";
+                    if ($result->num_rows > 0) {
+                        while($row = $result->fetch_assoc()) {
+                            echo "<tr>";
+                            if ($type == 'blogs') {
                                 echo "<td>" . htmlspecialchars($row["blog_id"]) . "</td>";
                                 echo "<td>" . htmlspecialchars($row["title"]) . "</td>";
                                 echo "<td>" . htmlspecialchars($row["description"]) . "</td>";
                                 echo "<td>" . htmlspecialchars($row["creator_email"]) . "</td>";
+                                echo "<td>" . htmlspecialchars($row["privacy_filter"]) . "</td>";
                                 echo "<td>" . htmlspecialchars($row["event_date"]) . "</td>";
+    
+                                $image_path = "images/" . $row["blog_id"] . "/" . $row["blog_id"];
+                                $default_image = "images/default_images/default-featured-image.jpg"; // Path to the default image
+    
+                                if (!file_exists($image_path)) {
+                                    $image_path = $default_image;
+                                }
+    
+                                echo "<td><img src='" . $image_path . "' alt='Image' width='100' height='100'></td>";
                                 echo "<td>
+                                        <form method='GET' action='adminEditBlogPage.php' style='display:inline;'>
+                                            <input type='hidden' name='blog_id' value='" . htmlspecialchars($row["blog_id"]) . "'>
+                                            <input type='submit' value='Edit' class='button'>
+                                        </form>
                                         <form method='POST' action='' style='display:inline;'>
                                             <input type='hidden' name='blog_id' value='" . htmlspecialchars($row["blog_id"]) . "'>
-                                            <input type='submit' name='delete_blog' value='Delete'>
+                                            <input type='submit' name='delete_blog' value='Delete' class='button delete'>
                                         </form>
-                                    </td>";
-                                echo "</tr>";
-                            }
-                        }
-                    } else {
-                        $sql = "SELECT first_name, last_name, email, role FROM users";
-                        $result = $conn->query($sql);
-                        if ($result->num_rows > 0) {
-                            while($row = $result->fetch_assoc()) {
-                                echo "<tr>";
+                                      </td>";
+                            } else {
+                                echo "<td>" . htmlspecialchars($row["email"]) . "</td>";
                                 echo "<td>" . htmlspecialchars($row["first_name"]) . "</td>";
                                 echo "<td>" . htmlspecialchars($row["last_name"]) . "</td>";
-                                echo "<td>" . htmlspecialchars($row["email"]) . "</td>";
                                 echo "<td>" . htmlspecialchars($row["role"]) . "</td>";
                                 echo "<td>
+                                        <form method='GET' action='adminEditUserPage.php' style='display:inline;'>
+                                            <input type='hidden' name='email' value='" . htmlspecialchars($row["email"]) . "'>
+                                            <input type='submit' value='Edit' class='button'>
+                                        </form>
                                         <form method='POST' action='' style='display:inline;'>
                                             <input type='hidden' name='email' value='" . htmlspecialchars($row["email"]) . "'>
-                                            <input type='submit' name='delete_user' value='Delete'>
+                                            <input type='submit' name='delete_user' value='Delete' class='button delete'>
                                         </form>
-                                    </td>";
-                                echo "</tr>";
+                                      </td>";
                             }
+                            echo "</tr>";
                         }
+                    } else {
+                        echo "<tr><td colspan='8'>No records found</td></tr>";
                     }
                     ?>
                 </tbody>
