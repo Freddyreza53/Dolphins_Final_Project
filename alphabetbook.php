@@ -39,187 +39,147 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['removeFromAlphabetBook
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Alphabet Book</title>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-        <link rel="stylesheet" type="text/css" href="styles.css">
-        <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-        <style>
-            /* Adjust column widths for both tables */
-            #blogsTable th:nth-child(1),
-            #blogsTable td:nth-child(1),
-            #alphabetBookTable th:nth-child(1),
-            #alphabetBookTable td:nth-child(1) {
-                width: 50px; /* Make 'Select' column smaller */
-            }
+<head>
+    <title>Alphabet Book</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+</head>
+<body>
+    <h1>Photos ABCD</h1>
+    <?php show_navbar(); // Display the navbar ?>
 
-            #blogsTable th:nth-child(2),
-            #blogsTable td:nth-child(2),
-            #alphabetBookTable th:nth-child(2),
-            #alphabetBookTable td:nth-child(2) {
-                width: 70px; /* Make 'blog_id' column smaller */
-            }
-
-            /* Print-friendly styling */
-            @media print {
-                body {
-                    font-family: Arial, sans-serif;
-                }
-
-                h1, h2 {
-                    text-align: center;
-                }
-
-                .blog-page {
-                    page-break-after: always;
-                    margin: 20px;
-                }
-
-                .blog-title {
-                    font-size: 24px;
-                    font-weight: bold;
-                    text-align: center;
-                    margin-bottom: 10px;
-                }
-
-                .blog-content {
-                    font-size: 16px;
-                    margin: 0 20px;
-                }
-            }
-        </style>
-    </head>
-    <body>
-        <h1>Photos ABCD</h1>
-        <?php show_navbar(); // Display the navbar ?>
-
-        <h2>Available Blogs</h2>
-        <div>
-            <label for="alphabetFilter" style="margin-right: 10px;">Filter by Alphabet:</label>
-            <select id="alphabetFilter">
-                <option value="">All</option>
-                <?php
-                    foreach (range('A', 'Z') as $letter) {
-                        echo "<option value='$letter'>$letter</option>";
-                    }
-                ?>
-            </select>
-        </div>
-
-        <form method="POST" id="addForm">
-            <input type="hidden" name="addToAlphabetBook" value="1">
-            <table id="blogsTable" class="display">
-                <thead>
-                    <tr>
-                        <th>Select</th>
-                        <th>blog_id</th>
-                        <th>title</th>
-                        <th>description</th>
-                        <th>creator_email</th>
-                        <th>event_date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $sql = "SELECT blog_id, title, description, creator_email, event_date FROM blogs";
-                    $result = $conn->query($sql);
-
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<tr>";
-                            echo "<td><input type='checkbox' name='selectedBlogs[]' value='" . $row['blog_id'] . "'></td>";
-                            echo "<td>" . htmlspecialchars($row["blog_id"]) . "</td>";
-                            echo "<td class='blogTitle'>" . htmlspecialchars($row["title"]) . "</td>";
-                            echo "<td>" . htmlspecialchars($row["description"]) . "</td>";
-                            echo "<td>" . htmlspecialchars($row["creator_email"]) . "</td>";
-                            echo "<td>" . htmlspecialchars($row["event_date"]) . "</td>";
-                            echo "</tr>";
-                        }
-                    }
-                    ?>
-                </tbody>
-            </table>
-            <button type="submit">Add to Alphabet Book</button>
-        </form>
-
-        <h2>Alphabet Book Blogs</h2>
-        <form method="POST" id="removeForm">
-            <input type="hidden" name="removeFromAlphabetBook" value="1">
-            <table id="alphabetBookTable" class="display">
-                <thead>
-                    <tr>
-                        <th>Select</th>
-                        <th>blog_id</th>
-                        <th>title</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $email = $_SESSION['user']['email'];
-                    $alphabetBookQuery = "SELECT blogs.blog_id, blogs.title, blogs.description FROM alphabet_book 
-                                          INNER JOIN blogs ON alphabet_book.blog_id = blogs.blog_id 
-                                          WHERE alphabet_book.user_email = '$email'";
-                    $alphabetBookResult = $conn->query($alphabetBookQuery);
-                    $addedLetters = []; // Track unique first letters
-
-                    if ($alphabetBookResult->num_rows > 0) {
-                        while ($row = $alphabetBookResult->fetch_assoc()) {
-                            $firstLetter = strtoupper($row["title"][0]);
-                            $addedLetters[$firstLetter] = true; // Add letter to tracker
-
-                            echo "<tr>";
-                            echo "<td><input type='checkbox' name='selectedBlogsToRemove[]' value='" . $row['blog_id'] . "'></td>";
-                            echo "<td>" . htmlspecialchars($row["blog_id"]) . "</td>";
-                            echo "<td>" . htmlspecialchars($row["title"]) . "</td>";
-                            echo "</tr>";
-                        }
-                    }
-                    ?>
-                </tbody>
-            </table>
-            <button type="submit">Remove Selected Blogs</button>
-        </form>
-
-        <h2>Alphabet Book Completion Progress</h2>
-        <div>
-            <progress id="alphabetProgress" max="26" value="<?php echo count($addedLetters); ?>"></progress>
-            <span id="progressText"><?php echo count($addedLetters); ?>/26 letters completed</span>
-        </div>
-
-        <h2>Table of Contents</h2>
-        <ul>
+    <h2>Available Blogs</h2>
+    <div>
+        <label for="alphabetFilter" style="margin-right: 10px;">Filter by Alphabet:</label>
+        <select id="alphabetFilter">
+            <option value="">All</option>
             <?php
-            $alphabetBookResult->data_seek(0); // Reset result pointer
-            $pageNumber = 1;
-            while ($row = $alphabetBookResult->fetch_assoc()) {
-                echo "<li>Page $pageNumber: " . htmlspecialchars($row['title']) . "</li>";
-                $pageNumber++;
+            foreach (range('A', 'Z') as $letter) {
+                echo "<option value='$letter'>$letter</option>";
             }
             ?>
-        </ul>
+        </select>
+    </div>
 
+    <form method="POST" id="addForm">
+        <input type="hidden" name="addToAlphabetBook" value="1">
+        <table id="blogsTable" class="display">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>blog_id</th>
+                    <th>title</th>
+                    <th>description</th>
+                    <th>creator_email</th>
+                    <th>event_date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // Fetch blogs created by the logged-in user
+                $userEmail = $_SESSION['user']['email'];
+                $sql = "SELECT blog_id, title, description, creator_email, event_date 
+                        FROM blogs 
+                        WHERE creator_email = '$userEmail'";
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td><input type='checkbox' name='selectedBlogs[]' value='" . $row['blog_id'] . "'></td>";
+                        echo "<td>" . htmlspecialchars($row["blog_id"]) . "</td>";
+                        echo "<td class='blogTitle'>" . htmlspecialchars($row["title"]) . "</td>";
+                        echo "<td>" . htmlspecialchars($row["description"]) . "</td>";
+                        echo "<td>" . htmlspecialchars($row["creator_email"]) . "</td>";
+                        echo "<td>" . htmlspecialchars($row["event_date"]) . "</td>";
+                        echo "</tr>";
+                    }
+                }
+                ?>
+            </tbody>
+        </table>
+        <button type="submit">Add to Alphabet Book</button>
+    </form>
+
+    <h2>Alphabet Book Blogs</h2>
+    <form method="POST" id="removeForm">
+        <input type="hidden" name="removeFromAlphabetBook" value="1">
+        <table id="alphabetBookTable" class="display">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>blog_id</th>
+                    <th>title</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $email = $_SESSION['user']['email'];
+                $alphabetBookQuery = "SELECT blogs.blog_id, blogs.title, blogs.description FROM alphabet_book 
+                                      INNER JOIN blogs ON alphabet_book.blog_id = blogs.blog_id 
+                                      WHERE alphabet_book.user_email = '$email'";
+                $alphabetBookResult = $conn->query($alphabetBookQuery);
+                $addedLetters = []; // Track unique first letters
+
+                if ($alphabetBookResult->num_rows > 0) {
+                    while ($row = $alphabetBookResult->fetch_assoc()) {
+                        $firstLetter = strtoupper($row["title"][0]);
+                        $addedLetters[$firstLetter] = true; // Add letter to tracker
+
+                        echo "<tr>";
+                        echo "<td><input type='checkbox' name='selectedBlogsToRemove[]' value='" . $row['blog_id'] . "'></td>";
+                        echo "<td>" . htmlspecialchars($row["blog_id"]) . "</td>";
+                        echo "<td>" . htmlspecialchars($row["title"]) . "</td>";
+                        echo "</tr>";
+                    }
+                }
+                ?>
+            </tbody>
+        </table>
+        <button type="submit">Remove Selected Blogs</button>
+    </form>
+
+    <h2>Alphabet Book Completion Progress</h2>
+    <div>
+        <progress id="alphabetProgress" max="26" value="<?php echo count($addedLetters); ?>"></progress>
+        <span id="progressText"><?php echo count($addedLetters); ?>/26 letters completed</span>
+    </div>
+
+    <h2>Table of Contents</h2>
+    <ul>
         <?php
         $alphabetBookResult->data_seek(0); // Reset result pointer
+        $pageNumber = 1;
         while ($row = $alphabetBookResult->fetch_assoc()) {
-            echo '<div class="blog-page">';
-            echo '<div class="blog-title">' . htmlspecialchars($row['title']) . '</div>';
-            echo '<div class="blog-content">' . nl2br(htmlspecialchars($row['description'])) . '</div>';
-            echo '</div>';
+            echo "<li>Page $pageNumber: " . htmlspecialchars($row['title']) . "</li>";
+            $pageNumber++;
         }
         ?>
+    </ul>
 
-        <script>
-            $(document).ready(function() {
-                const table = $('#blogsTable').DataTable();
-                const alphabetBookTable = $('#alphabetBookTable').DataTable();
+    <?php
+    $alphabetBookResult->data_seek(0); // Reset result pointer
+    while ($row = $alphabetBookResult->fetch_assoc()) {
+        echo '<div class="blog-page">';
+        echo '<div class="blog-title">' . htmlspecialchars($row['title']) . '</div>';
+        echo '<div class="blog-content">' . nl2br(htmlspecialchars($row['description'])) . '</div>';
+        echo '</div>';
+    }
+    ?>
 
-                // Alphabet filter
-                $('#alphabetFilter').on('change', function() {
-                    const selectedLetter = $(this).val();
-                    table.column(2).search(selectedLetter ? '^' + selectedLetter : '', true, false).draw();
-                });
+    <script>
+        $(document).ready(function() {
+            const table = $('#blogsTable').DataTable();
+            const alphabetBookTable = $('#alphabetBookTable').DataTable();
+
+            // Alphabet filter
+            $('#alphabetFilter').on('change', function() {
+                const selectedLetter = $(this).val();
+                table.column(2).search(selectedLetter ? '^' + selectedLetter : '', true, false).draw();
             });
-        </script>
-    </body>
+        });
+    </script>
+</body>
 </html>

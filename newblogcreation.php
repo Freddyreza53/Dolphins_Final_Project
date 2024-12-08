@@ -66,10 +66,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         <label for="event_date">Event Date:</label>
         <input type="date" id="event_date" name="event_date" required><br>
 
-        <input type="radio" id="public" name="privacy_filter" value="public" <?php echo ($blog['privacy_filter'] == 'public') ? 'checked' : ''; ?>>
+        <input type="radio" id="public" name="privacy_filter" value="public">
         <label for="privacy_filter">Public</label>
         
-        <input type="radio" id="private" name="privacy_filter" value="private" <?php echo ($blog['privacy_filter'] == 'private') ? 'checked' : ''; ?>>
+        <input type="radio" id="private" name="privacy_filter" value="private">
         <label for="privacy_filter">Private</label><br>
 
         <label for="image">Upload Image:</label>
