@@ -1,8 +1,10 @@
 <?php
+    // Start the session
     session_start();
     require 'db.php'; // Include database connection
-    include 'navbar.php';
+    include 'navbar.php'; // Include navigation bar
 
+    // Fetch all blogs if the user is logged in, otherwise fetch only public blogs
     if ($_SESSION['user']) {
         $user = $_SESSION['user'];
         $sql = "SELECT * FROM blogs ORDER BY title ASC";
@@ -10,7 +12,7 @@
         $sql = "SELECT * FROM blogs WHERE privacy_filter = 'public' ORDER BY event_date DESC";
     }
 
-
+    // Fetch all blogs
     $result = $conn->query($sql);
 
 
@@ -52,7 +54,7 @@
 
         <h1>Welcome to Photos ABCD</h1>
         <p> Created by Team Dolphins </p>
-        <?php show_navbar(); ?>
+        <?php show_navbar(); // Display the navbar?>
 
 
 		<br>
@@ -78,6 +80,7 @@
 
         <table id="view_blogs">
             <?php
+            // Display all blogs in a table
                 if ($result->num_rows > 0) {
                 $counter = 0;
                     while ($row = $result->fetch_assoc()) {

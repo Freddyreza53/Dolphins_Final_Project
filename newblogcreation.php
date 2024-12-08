@@ -1,8 +1,9 @@
 <?php
 session_start();
 require 'db.php'; // Include database connection
-include 'navbar.php';
+include 'navbar.php'; // Include navigation bar
 
+// Ensure the user is logged in
 if (!isset($_SESSION['email'])) {
     echo "Error: User is not logged in.";
     exit();
@@ -52,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
 </head>
 <body>
     <h1>Photos ABCD</h1>
-    <?php show_navbar() ?>
+    <?php show_navbar() // Display the navbar?>
     
     <h1>Create New Blog</h1>
     <form method="post" enctype="multipart/form-data">

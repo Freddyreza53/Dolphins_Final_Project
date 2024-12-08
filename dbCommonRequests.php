@@ -1,6 +1,7 @@
 <?php
 require 'db.php'; // Include database connection
 
+// Function to delete a blog by its ID
 function delete_blog($blog_id) {
     global $conn;
     $blog_id = $conn->real_escape_string($blog_id);
@@ -8,6 +9,7 @@ function delete_blog($blog_id) {
     return $conn->query($delete_sql);
 }
 
+// Function to delete a user by their email
 function delete_user($email) {
     global $conn;
     $email = $conn->real_escape_string($email);
@@ -15,6 +17,7 @@ function delete_user($email) {
     return $conn->query($delete_sql);
 }
 
+// Function to update a blog's details
 function update_blog($blog_id, $title, $description, $event_date, $privacy_filter) {
     global $conn;
     $blog_id = $conn->real_escape_string($blog_id);

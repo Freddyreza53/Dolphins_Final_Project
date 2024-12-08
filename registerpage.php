@@ -1,6 +1,6 @@
 <?php
 require 'db.php'; // Include database connection
-include 'navbar.php';
+include 'navbar.php'; // Include navigation bar
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssss", $email, $first_name, $last_name, $password);
 
+    // redirect to login page if registration is successful
     if ($stmt->execute()) {
         header("Location: loginpage.php");
     } else {
@@ -30,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <h1>Photos ABCD</h1>
 
-    <?php show_navbar(); ?>
+    <?php show_navbar(); // Display the navbar?>
 
     <h1>Register:</h1>
 

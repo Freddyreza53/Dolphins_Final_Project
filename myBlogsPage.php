@@ -1,7 +1,7 @@
 <?php
     session_start();
     require 'dbCommonRequests.php'; // Include database connection
-    include 'navbar.php';
+    include 'navbar.php'; // Include navigation bar
 
     // Ensure the user is logged in
     if (!isset($_SESSION['email'])) {
@@ -52,7 +52,7 @@
     <body>
 
         <h1>Photos ABCD</h1>
-        <?php show_navbar(); ?>
+        <?php show_navbar(); // Display the navbar ?>
 
         <h1>My Blogs</h1>
         <h3>Make all blogs private or public:</h3>

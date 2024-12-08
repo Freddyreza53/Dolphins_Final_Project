@@ -1,8 +1,9 @@
 <?php
     session_start();
     require 'db.php'; // Include database connection
-    include 'navbar.php'; 
+    include 'navbar.php'; // Include navigation bar
 
+    // Handle login request
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = $_POST['email'];
         $password = $_POST['password'];
@@ -13,7 +14,7 @@
         $stmt->execute();
         $result = $stmt->get_result();
         $user = $result->fetch_assoc();
-
+        // Check if the user exists and the password is correct 
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user'] = $user;
             $_SESSION['role'] = $user['role'];
@@ -36,7 +37,7 @@
     <body>
 
         <h1>Photos ABCD</h1>
-        <?php show_navbar(); ?>
+        <?php show_navbar(); // Display the navbar?>
 
         <h1>Login</h1>
         <p> Enter login information. </p>

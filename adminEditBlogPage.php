@@ -1,7 +1,7 @@
 <?php
     session_start();
     require 'db.php'; // Include database connection
-    include 'navbar.php'; 
+    include 'navbar.php'; // Include navigation bar
 
     // Ensure the user is logged in
     if (!isset($_SESSION['email'])) {
@@ -52,7 +52,7 @@
                 $image_path = $image_dir . '/' . $blog_id;
                 move_uploaded_file($_FILES['image']['tmp_name'], $image_path);
             }
-
+            // Redirect to the admin view page
             header("Location: adminviewpage.php");
             exit();
         } else {
