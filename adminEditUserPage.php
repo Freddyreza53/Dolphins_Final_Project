@@ -1,7 +1,8 @@
 <?php
+    // Start the session
     session_start();
     require 'db.php'; // Include database connection
-    include 'navbar.php'; 
+    include 'navbar.php';  // Include navigation bar
 
     // Ensure the user is logged in
     if (!isset($_SESSION['email'])) {
@@ -51,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
 </head>
     <body>
         <h1>Edit User</h1>
-        <?php show_navbar(); ?>
+        <?php show_navbar(); // Display navbar?>
 
         <form method="post">
             <label for="first_name">First Name:</label>

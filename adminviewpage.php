@@ -1,8 +1,8 @@
 <?php
     //session_start();
-    require 'dbCommonRequests.php'; // Include database connection
+    require 'dbCommonRequests.php'; // Include common database operations
     require 'adminCheck.php'; // Include admin check
-    include 'navbar.php';
+    include 'navbar.php'; // Include navigation bar
 
     // Handle delete request for blogs
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete_blog"])) {
@@ -24,14 +24,18 @@
         }
     }
 
-    // Determine which data to display
+    // Determine which data to display (blogs or users)
     $type = isset($_GET['type']) ? $_GET['type'] : 'blogs';
 
     // Fetch data based on the type
     if ($type == 'blogs') {
         $sql = "SELECT * FROM blogs ORDER BY event_date ASC";
     } else {
-        $sql = "SELECT * FROM users ORDER BY email ASC";
+        $sql = "SELECT users.email, users.first_name, users.last_name, users.role, COUNT(blogs.blog_id) AS blog_count
+            FROM users
+            LEFT JOIN blogs ON users.email = blogs.creator_email
+            GROUP BY users.email, users.first_name, users.last_name, users.role
+            ORDER BY users.email ASC";
     }
 
     $result = $conn->query($sql);
@@ -52,7 +56,7 @@
 
         <h1>Photos ABCD</h1>
 
-        <?php show_navbar(); ?>
+        <?php show_navbar(); // Display navbar?>
         <?php if ($type == 'blogs'): ?>
             <h1>Blogs</h1>
         <?php else: ?>
@@ -81,6 +85,7 @@
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Role</th>
+                        <th>Blog Count</th>
                         <th>Actions</th>
                     <?php endif; ?>
                 </tr>
@@ -90,6 +95,7 @@
                     if ($result->num_rows > 0) {
                         while($row = $result->fetch_assoc()) {
                             echo "<tr>";
+                            // Display data based on the type
                             if ($type == 'blogs') {
                                 echo "<td>" . htmlspecialchars($row["blog_id"]) . "</td>";
                                 echo "<td>" . htmlspecialchars($row["title"]) . "</td>";
@@ -121,6 +127,7 @@
                                 echo "<td>" . htmlspecialchars($row["first_name"]) . "</td>";
                                 echo "<td>" . htmlspecialchars($row["last_name"]) . "</td>";
                                 echo "<td>" . htmlspecialchars($row["role"]) . "</td>";
+                                echo "<td>" . htmlspecialchars($row["blog_count"]) . "</td>";
                                 echo "<td>
                                         <form method='GET' action='adminEditUserPage.php' style='display:inline;'>
                                             <input type='hidden' name='email' value='" . htmlspecialchars($row["email"]) . "'>

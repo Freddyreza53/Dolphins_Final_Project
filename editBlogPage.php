@@ -1,7 +1,7 @@
 <?php
     session_start();
     require 'db.php'; // Include database connection
-    include 'navbar.php'; 
+    include 'navbar.php'; // Include navigation bar
 
     // Ensure the user is logged in
     if (!isset($_SESSION['email'])) {
@@ -75,7 +75,7 @@
 </head>
 <body>
     <h1>Photos ABCD</h1>
-    <?php show_navbar(); ?>
+    <?php show_navbar(); // Display the navbar?>
 
     <h1>Edit Blog</h1>
 
